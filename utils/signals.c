@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ayboudya <ayboudya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:37:41 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:37:42 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/23 18:45:46 by ayboudya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	handle_ctrlc_child(int sig_num)
 	stats = sig_handler();
 	if (stats->reading_from_here_doc && !stats->executing)
 	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
+		// write(1, "\n", 1);
+		// rl_on_new_line();
+		// rl_replace_line("", 1);
 		stats->reading_from_here_doc = 0;
 		exit(130);
 	}

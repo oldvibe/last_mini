@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:36:45 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:36:46 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:48:03 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,3 +100,5 @@ char	***ft_split_tokens(char **tokens)
 	commands[i] = NULL;
 	return (commands);
 }
+
+

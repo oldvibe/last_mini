@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 17:12:08 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/21 17:12:09 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/23 22:05:27 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,40 @@ char	**env_for_execv(t_env *env)
 void	path_ready(t_list *cmd, t_env **my_env)
 {
 	char	**env_exec;
-
-	if (ft_strcmp(cmd->command[0], "..") && ft_strcmp(cmd->command[0], ".")
-		&& access(cmd->command[0], F_OK | X_OK) == 0)
+	struct stat sb;
+	
+	stat(cmd->command[0], &sb);
+	if (ft_strcmp(cmd->command[0], ".") == 0)
+	{
+		ft_printf(2, "bash: .: filename argument required\n");
+		ft_printf(2, ".: usage: . filename [arguments]\n");
+		exit(2);
+	}
+	else if (S_ISDIR(sb.st_mode) && ft_strcmp(cmd->command[0], ".."))
+	{
+		write(2, cmd->command[0], ft_strlen(cmd->command[0]));
+		write(2, " is a directory\n", 16);
+		exit(126);
+	}
+	else if (ft_strcmp(cmd->command[0], "..") && ft_strcmp(cmd->command[0], ".")
+	&& access(cmd->command[0], F_OK | X_OK) == 0)
 	{
 		env_exec = env_for_execv(*my_env);
 		execve(cmd->command[0], cmd->command, env_exec);
 	}
 	else if (ft_strcmp(cmd->command[0], "..") && ft_strcmp(cmd->command[0], ".")
-		&& access(cmd->command[0], F_OK) == 0)
+	&& access(cmd->command[0], F_OK) == 0)
 	{
 		write(2, cmd->command[0], ft_strlen(cmd->command[0]));
 		write(2, ": Permission denied", 19);
 		write(2, "\n", 1);
 		exit(126);
 	}
-	else if (ft_strcmp(cmd->command[0], ".") == 0)
-	{
-		ft_printf(2, "bash: .: filename argument required\n");
-		ft_printf(2, ".: usage: . filename [arguments]\n");
-		exit(2);
-	}
 	else
-		return (cmd_not_found(cmd->command[0]), exit(127));
+	{
+		write(2, cmd->command[0], ft_strlen(cmd->command[0]));
+		write(2, ": No such file or directory\n", 28);
+	}
 }
 
 void	look_for_path(int *found, char *path, t_env **my_env, t_list *cmd)
@@ -110,18 +121,22 @@ void	exec_extern_cmd(t_list *cmd, t_env **my_env)
 	command = cmd->command[0];
 	if (command[0] == '.' || command[0] == '/')
 		path_ready(cmd, my_env);
-	paths = get_paths(*my_env);
-	if (paths)
+	else
 	{
-		i = -1;
-		while (paths[++i])
-			look_for_path(&found, paths[i], my_env, cmd);
-	}
-	if (!found)
-	{
-		write(2, "Error : command not found: ", 27);
-		write(2, command, ft_strlen(command));
-		write(2, "\n", 1);
-		exit(127);
+		
+		paths = get_paths(*my_env);
+		if (paths)
+		{
+			i = -1;
+			while (paths[++i])
+				look_for_path(&found, paths[i], my_env, cmd);
+		}
+		if (!found)
+		{
+			write(2, "Error : command not found: ", 27);
+			write(2, command, ft_strlen(command));
+			write(2, "\n", 1);
+			exit(127);
+		}
 	}
 }

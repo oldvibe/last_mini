@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:35:39 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:35:40 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/23 16:29:47 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	ft_exit(char **argument)
 	long long	num;
 
 	error = 0;
+	if (isatty(STDIN_FILENO))
+		ft_printf(2, "exit\n");
 	if (!argument[1])
 		exit(get_exit_status());
 	if (argument[1] && !ft_is_number(argument[1]))

@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:37:58 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:40:28 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:42:57 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	shell_loop(t_exec *executor, char **envp, t_env *my_env,
 		init_executor(executor, envp, my_env);
 		signal(SIGINT, handle_ctrlc);
 		signal(SIGQUIT, SIG_IGN);
-		s = readline("minishell > ");
+		s = readline("minishell $ ");
 		if (!s)
 		{
 			printf("exit\n");

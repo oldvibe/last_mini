@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:36:51 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:36:52 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/24 16:23:28 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ t_list	*parse_list(char ***commands, t_exec *executor)
 		append_node(&current, new_node);
 		previous_type = new_node->type;
 	}
+	
 	return (head);
 }

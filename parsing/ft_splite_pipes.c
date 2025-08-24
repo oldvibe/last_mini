@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:36:48 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:47:17 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:42:06 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**ft_split_pipes(char *s)
 	k = 0;
 	arr = gc_malloc(sizeof(char *) * (ft_strlen(s) + 1));
 	if (!arr)
-		return (NULL);
+	return (NULL);
 	while (s[i])
 	{
 		skip_spaces(s, &i);

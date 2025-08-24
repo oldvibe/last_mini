@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:36:59 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:37:00 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:47:38 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,92 @@ char	**append_tokens(char **tokens)
 	return (new_tokens);
 }
 
+int size_array(char **arr)
+{
+    int i = 0;
+    while (arr[i]) 
+        i++;
+    return (i);
+}
+
+void add_to_args(t_list *cmd, t_list *lst)
+{
+    int size_cmd;
+    int size_lst;
+    int i;
+    char **new_cmd;
+    size_cmd = size_array(cmd->command);
+    size_lst = size_array(lst->command);
+    if (size_lst == 1)
+        return ;
+    new_cmd = gc_malloc((size_cmd + size_lst) * sizeof(char *));
+    i = 0;
+    while (i < size_cmd)
+    {
+        new_cmd[i] = cmd->command[i];
+        i++;
+    }
+    i = 0;
+    while (lst->command[i + 1])
+    {
+        new_cmd[size_cmd + i] = lst->command[i + 1];
+        i++;
+    }
+    lst->command[1] = NULL;
+    new_cmd[size_cmd + i] = NULL;
+    cmd->command = new_cmd;
+}
+
+void first_args(t_list *lst, t_exec *exec)
+{
+    t_list *tmp;
+    t_list *new;
+    char **arr;
+    
+    tmp = lst->next;
+    if (!tmp->type)
+        return ;
+    while (tmp)
+    {
+        if (tmp->type == 1)
+           return ;
+        if (tmp->type >= 2 && tmp->type <= 5 && size_array(tmp->next->command) > 1)
+        {
+            arr = gc_malloc(sizeof(char *));
+            arr[0] = NULL;
+            new = create_new_node(arr, 0, exec);
+            new->next = lst->next;
+            lst->next = new;
+            return ;
+        }
+        tmp = tmp->next;
+    }
+}
+
+void hi_ft(t_list *lst, t_exec *exec)
+{
+    int     i;
+    t_list *cmd;
+    first_args(lst, exec);
+    
+    lst = lst->next;
+    cmd = lst;
+    i = 0;
+    while (lst)
+    {
+        if (lst->type == 5 || lst->type == 2 || lst->type == 3 || lst->type == 4)
+        {
+            lst = lst->next;
+            add_to_args(cmd, lst);
+        }
+        lst = lst->next;
+        if (lst && lst->type == 1)
+        {
+            lst = lst->next;
+            cmd = lst;
+        }
+    }
+}
 int	parser(t_exec *executor, char *str)
 {
 	executor->tokens = ft_split_pipes(str);
@@ -63,6 +149,7 @@ int	parser(t_exec *executor, char *str)
 	executor->tokens = append_tokens(executor->tokens);
 	executor->commands = ft_split_tokens(executor->tokens);
 	executor->commands_list = parse_list(executor->commands, executor);
+    hi_ft(executor->commands_list, executor);
 	executor->commands_list = expand(executor, executor->commands_list);
 	return (0);
 }
@@ -87,7 +174,7 @@ int	simple_parsing(char *s, t_exec *executor)
 
 	stats = sig_handler();
 	stats->executing = 0;
-	str = ft_strtrim(ft_strdup(s), " \t\n\r\n\f");
+    str = s;
 	if (str && !str[0])
 		return (1);
 	if (str && str[0])

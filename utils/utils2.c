@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:37:50 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:37:51 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:43:09 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,11 @@ void	signinthandler(int sig)
 
 	(void)sig;
 	stats = sig_handler();
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	if (stats->executing == 0 && !stats->reading_from_here_doc)
 		rl_redisplay();
 	set_exit_status(130);
 }
+

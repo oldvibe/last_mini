@@ -6,7 +6,7 @@
 /*   By: yanait-e <yanait-e@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:39:05 by yanait-e          #+#    #+#             */
-/*   Updated: 2025/08/22 17:52:52 by yanait-e         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:43:22 by yanait-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <fcntl.h>
 # include <limits.h>
+#include <sys/stat.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -186,6 +187,7 @@ void							handle_exit_status(t_exp *var, int *i);
 void							handle_dollar_digit(char c, char quote_char,
 									t_exp *var, int *i);
 char							**init_result(void);
+t_list	*create_new_node(char **command, int previous_type, t_exec *executor);
 
 /* parsing utils */
 char							*new_str(char *s, int to_skip);
